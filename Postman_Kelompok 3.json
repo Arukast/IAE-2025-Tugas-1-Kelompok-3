@@ -57,20 +57,15 @@
 									"urlencoded": [
 										{
 											"key": "email",
-											"value": "user1@gmail.com",
+											"value": "admin@example.com",
 											"type": "text"
 										},
 										{
 											"key": "password",
-											"value": "pass123",
+											"value": "admin123",
 											"type": "text"
 										}
-									],
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
+									]
 								},
 								"url": {
 									"raw": "http://127.0.0.1:5000/auth/login",
@@ -98,7 +93,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 17 Oct 2025 15:08:11 GMT"
+									"value": "Fri, 17 Oct 2025 18:41:06 GMT"
 								},
 								{
 									"key": "Content-Type",
@@ -110,7 +105,7 @@
 								},
 								{
 									"key": "Set-Cookie",
-									"value": "jwt_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzYwNzE0NTkxfQ.lTiFhzIAy2VEhu9q4H2FfHrbAU9DQ5Gw_NC8WQbPM1U; HttpOnly; Path=/; SameSite=Lax"
+									"value": "jwt_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzYwNzI3MzY2fQ.QrqvxYNUdORZV4EQuzPCB1ln8n2xL2K4SC0PIXJCFAw; HttpOnly; Path=/; SameSite=Lax"
 								},
 								{
 									"key": "Connection",
@@ -118,7 +113,73 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzYwNzE0NTkxfQ.lTiFhzIAy2VEhu9q4H2FfHrbAU9DQ5Gw_NC8WQbPM1U\"\n}"
+							"body": "{\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzYwNzI3MzY2fQ.QrqvxYNUdORZV4EQuzPCB1ln8n2xL2K4SC0PIXJCFAw\"\n}"
+						},
+						{
+							"name": "400 Bad Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "admin@example.com",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "password",
+											"value": "admin123",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/auth/login",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "BAD REQUEST",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.1.3 Python/3.10.6"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 19:26:32 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "51"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Email and password are required\"\n}"
 						}
 					]
 				}
@@ -135,13 +196,13 @@
 					},
 					"response": [
 						{
-							"name": "View Items",
+							"name": "200 OK",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"username\" : \"mahasiswa\", \r\n    \"password\": \"belajar\"\r\n    \r\n    }"
+									"mode": "urlencoded",
+									"urlencoded": []
 								},
 								"url": {
 									"raw": "http://127.0.0.1:5000/items",
@@ -168,7 +229,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 17 Oct 2025 14:56:06 GMT"
+									"value": "Fri, 17 Oct 2025 18:42:05 GMT"
 								},
 								{
 									"key": "Content-Type",
@@ -176,7 +237,7 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "186"
+									"value": "358"
 								},
 								{
 									"key": "Connection",
@@ -184,7 +245,59 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"items\": [\n        {\n            \"id\": 1,\n            \"name\": \"Lonovo Ligion 5i\",\n            \"price\": 15000000\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Ligotech R25\",\n            \"price\": 750000\n        }\n    ]\n}"
+							"body": "{\n    \"items\": [\n        {\n            \"id\": 1,\n            \"name\": \"Lonovo Ligion 5i\",\n            \"price\": 15000000\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Ligotech R25\",\n            \"price\": 750000\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Asusa RIG Zephyrus\",\n            \"price\": 25000000\n        },\n        {\n            \"id\": 4,\n            \"name\": \"MicBook Pro 16\",\n            \"price\": 30000000\n        }\n    ]\n}"
+						},
+						{
+							"name": "After Add New Item",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/items",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"items"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.1.3 Python/3.10.6"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 19:15:05 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "452"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"items\": [\n        {\n            \"id\": 1,\n            \"name\": \"Lonovo Ligion 5i\",\n            \"price\": 15000000\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Ligotech R25\",\n            \"price\": 750000\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Asusa RIG Zephyrus\",\n            \"price\": 25000000\n        },\n        {\n            \"id\": 4,\n            \"name\": \"MicBook Pro 16\",\n            \"price\": 30000000\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Sumsung Galaxy X26 Ultra\",\n            \"price\": 30000000\n        }\n    ]\n}"
 						}
 					]
 				}
@@ -197,17 +310,37 @@
 					"name": "View Profile",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzYwNzI3MzY2fQ.QrqvxYNUdORZV4EQuzPCB1ln8n2xL2K4SC0PIXJCFAw",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:5000/profile",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"profile"
+							]
+						}
 					},
 					"response": [
 						{
-							"name": "View Profile Before Update",
+							"name": "View Profile Old",
 							"originalRequest": {
 								"method": "GET",
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzYwNzE0NTkxfQ.lTiFhzIAy2VEhu9q4H2FfHrbAU9DQ5Gw_NC8WQbPM1U",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzYwNzI3MzY2fQ.QrqvxYNUdORZV4EQuzPCB1ln8n2xL2K4SC0PIXJCFAw",
 										"type": "text"
 									}
 								],
@@ -236,7 +369,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 17 Oct 2025 15:08:21 GMT"
+									"value": "Fri, 17 Oct 2025 18:47:52 GMT"
 								},
 								{
 									"key": "Content-Type",
@@ -244,7 +377,7 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "92"
+									"value": "117"
 								},
 								{
 									"key": "Connection",
@@ -252,16 +385,16 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"profile\": {\n        \"email\": \"user1@gmail.com\",\n        \"id\": 1,\n        \"name\": \"User Satu\"\n    }\n}"
+							"body": "{\n    \"profile\": {\n        \"email\": \"admin@example.com\",\n        \"id\": 1,\n        \"name\": \"Admin Utama\",\n        \"role\": \"admin\"\n    }\n}"
 						},
 						{
-							"name": "View Profile After Update",
+							"name": "View Profile New",
 							"originalRequest": {
 								"method": "GET",
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzYwNzE0NTkxfQ.lTiFhzIAy2VEhu9q4H2FfHrbAU9DQ5Gw_NC8WQbPM1U",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzYwNzI5MDQ0fQ.HvMVZKtw5PN8l__zQSF1L4NklXorUBniKM4fzH3_onU",
 										"type": "text"
 									}
 								],
@@ -290,15 +423,15 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 17 Oct 2025 15:15:35 GMT"
+									"value": "Fri, 17 Oct 2025 19:09:48 GMT"
 								},
 								{
 									"key": "Content-Type",
-									"value": "application/json"
+									"value": "text/html; charset=utf-8"
 								},
 								{
 									"key": "Content-Length",
-									"value": "93"
+									"value": "1945"
 								},
 								{
 									"key": "Connection",
@@ -306,7 +439,66 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"profile\": {\n        \"email\": \"user1@gmail.com\",\n        \"id\": 1,\n        \"name\": \"kelompok 3\"\n    }\n}"
+							"body": "<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <meta charset=\"UTF-8\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n        <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC\" crossorigin=\"anonymous\">\n        <title>Profil</title>\n    </head>\n    <body>\n        <form action=\"/profile/update\" method=\"POST\">\n            <div class=\"mb-3\">\n                <label for=\"nama\" class=\"form-label\">Nama</label>\n                <input type=\"text\" class=\"form-control\" name=\"name\" value=\"admin kelompok 3\">\n        \n            </div>\n            <div class=\"mb-3\">\n                <label for=\"email\" class=\"form-label\">Email</label>\n                <input type=\"email\" class=\"form-control\" name=\"email\" value=\"admin@example.com\" readonly>\n        \n            </div>\n            <button type=\"submit\" class=\"btn btn-primary\">Tambah Data</button>\n        </form>\n        <script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM\" crossorigin=\"anonymous\"></script>\n        <script>\n    document.getElementById('save-btn').addEventListener('click', async () => {\n      const name = document.getElementById('name-input').value.trim();\n      if (!name) { document.getElementById('msg').textContent = 'Nama tidak boleh kosong'; return; }\n\n      const resp = await fetch('/profile/update', {\n        method: 'PUT',\n        headers: { 'Content-Type': 'application/json' },\n        credentials: 'same-origin', // include cookies\n        body: JSON.stringify({ name })\n      });\n\n      const data = await resp.json();\n      if (resp.ok) {\n        document.getElementById('msg').textContent = 'Berhasil diperbarui';\n      } else {\n        document.getElementById('msg').textContent = data.error || data.message || JSON.stringify(data);\n      }\n    });\n  </script>\n    </body>\n</html>"
+						},
+						{
+							"name": "Token is Missing!",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/profile",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"profile"
+									]
+								}
+							},
+							"status": "UNAUTHORIZED",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.1.3 Python/3.10.6"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 19:25:38 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Token is missing!\"\n}"
 						}
 					]
 				},
@@ -362,7 +554,7 @@
 									"urlencoded": [
 										{
 											"key": "name",
-											"value": "kelompok 3",
+											"value": "admin kelompok 3",
 											"type": "text"
 										}
 									]
@@ -393,7 +585,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 17 Oct 2025 15:09:08 GMT"
+									"value": "Fri, 17 Oct 2025 18:49:43 GMT"
 								},
 								{
 									"key": "Content-Type",
@@ -401,7 +593,7 @@
 								},
 								{
 									"key": "Content-Length",
-									"value": "138"
+									"value": "167"
 								},
 								{
 									"key": "Connection",
@@ -409,7 +601,401 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"message\": \"Profile updated successfully\",\n    \"profile\": {\n        \"email\": \"user1@gmail.com\",\n        \"id\": 1,\n        \"name\": \"kelompok 3\"\n    }\n}"
+							"body": "{\n    \"message\": \"Profile updated successfully\",\n    \"profile\": {\n        \"email\": \"admin@example.com\",\n        \"id\": 1,\n        \"name\": \"admin kelompok 3\",\n        \"role\": \"admin\"\n    }\n}"
+						},
+						{
+							"name": "Token is Missing!",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "admin kelompok 3",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/profile/update",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"profile",
+										"update"
+									]
+								}
+							},
+							"status": "UNAUTHORIZED",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.1.3 Python/3.10.6"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 19:26:10 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Token is missing!\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Users",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "Admin Get Users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:5000/users",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.1.3 Python/3.10.6"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 18:50:25 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "536"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"email\": \"admin@example.com\",\n        \"id\": 1,\n        \"name\": \"admin kelompok 3\",\n        \"role\": \"admin\"\n    },\n    {\n        \"email\": \"user1@example.com\",\n        \"id\": 2,\n        \"name\": \"Tb. Alta Ulil Abshor\",\n        \"role\": \"user\"\n    },\n    {\n        \"email\": \"user2@example.com\",\n        \"id\": 3,\n        \"name\": \"Raffi Akbar F\",\n        \"role\": \"user\"\n    },\n    {\n        \"email\": \"user3@example.com\",\n        \"id\": 4,\n        \"name\": \"Adhira Zhafif D\",\n        \"role\": \"user\"\n    },\n    {\n        \"email\": \"user4@example.com\",\n        \"id\": 5,\n        \"name\": \"Ahmad Akmal A\",\n        \"role\": \"user\"\n    }\n]"
+						},
+						{
+							"name": "User Get Users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:5000/users",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "FORBIDDEN",
+							"code": 403,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.1.3 Python/3.10.6"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 18:52:29 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "59"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Permission denied: Requires admin role.\"\n}"
+						},
+						{
+							"name": "Token is Missing!",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:5000/users",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"users"
+									]
+								}
+							},
+							"status": "UNAUTHORIZED",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.1.3 Python/3.10.6"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 19:27:47 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Token is missing!\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Add Items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzYwNzI5MzE0fQ.jq0L9fzo-5zimdsjWcP7o7qzYhr5ngalmGpbOmYmVK0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Sumsung Galaxy X26 Ultra",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "30000000",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/items/add",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"items",
+								"add"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add Items",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "Sumsung Galaxy X26 Ultra",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "30000000",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/items/add",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"items",
+										"add"
+									]
+								}
+							},
+							"status": "CREATED",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.1.3 Python/3.10.6"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 19:14:36 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "135"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"item\": {\n        \"id\": 5,\n        \"name\": \"Sumsung Galaxy X26 Ultra\",\n        \"price\": 30000000\n    },\n    \"message\": \"Item added successfully\"\n}"
+						},
+						{
+							"name": "Token is Missing!",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "Sumsung Galaxy X26 Ultra",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "30000000",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/items/add",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"items",
+										"add"
+									]
+								}
+							},
+							"status": "UNAUTHORIZED",
+							"code": 401,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.1.3 Python/3.10.6"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 19:28:37 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Token is missing!\"\n}"
 						}
 					]
 				}
