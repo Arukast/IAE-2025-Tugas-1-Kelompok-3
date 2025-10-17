@@ -64,9 +64,24 @@ Jika DATABASE_URL tidak disediakan, aplikasi akan otomatis menggunakan file SQLi
 Pastikan server Anda sedang berjalan (python app.py).
 
 * **Langkah 1: Login untuk Mendapatkan Token**
+  ```bash
+  curl -X POST http://localhost:5000/auth/login -d '{"email":"user1@example.com","password":"pass123"}' -H "Content-Type: application/json"
+  ```
 * **Langkah 2: Simpan Token ke Variabel**
+  ```bash
+  export TOKEN=<JWT_TOKEN>
+  ```
 * **Langkah 3: Akses Endpoint Publik /items**
+  ```bash
+  curl http://localhost:5000/items
+  ```
 * **Langkah 4: Akses Endpoint Terproteksi /profile/update (Dengan Token)**
+  ```bash
+  curl -X PUT http://localhost:5000/profile/update -H "Authorization: Bearer $TOKEN" -d '{"name":"NewName"}' -H "Content-Type: application/json"
+  ```
 * **Langkah 5: Tes Negatif (Akses /profile/update Tanpa Token)**
+  ```bash
+  curl -X PUT http://localhost:5000/profile/update -d '{"name":"NewName"}' -H "Content-Type: application/json"
+  ```
 
 
