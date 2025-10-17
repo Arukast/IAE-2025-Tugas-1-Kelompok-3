@@ -43,5 +43,3 @@ Langkah 2: Simpan Token ke Variabel
 Langkah 3: Akses Endpoint Publik /items
 Langkah 4: Akses Endpoint Terproteksi /profile/update (Dengan Token)
 Langkah 5: Tes Negatif (Akses /profile/update Tanpa Token)
-
-5.
