@@ -45,16 +45,21 @@ Jika DATABASE_URL tidak disediakan, aplikasi akan otomatis menggunakan file SQLi
 
 ## 3. Daftar Endpoint API
 
-###Autentikasi
+### Autentikasi
+* **/login**
+  Endpoint untuk menampilkan frontend dari login yang digunakan sebagai input email dan password
 * **POST /auth/login**
   Endpoint publik untuk mendapatkan token JWT. Data kredensial akan dicek ke database.
 
-### Items (Marketplace)
+### Items
 
 * **GET /items**
   Endpoint publik untuk melihat semua item dari database.
 
 ### Profil Pengguna
+
+* **GET /profile**
+  Endpoint terproteksi (wajib JWT) untuk menampilkan data pengguna yang sedang login seperti nama dan email 
 
 * **PUT /profile/update**
   Endpoint terproteksi (wajib JWT) untuk memperbarui nama pengguna yang sedang login.
