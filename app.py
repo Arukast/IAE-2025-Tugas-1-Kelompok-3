@@ -17,7 +17,6 @@ if not jwt_secret:
 
 # Inisialisasi Aplikasi Flask
 app = Flask(__name__)
-os.makedirs(app.instance_path, exist_ok=True)
 app.config['SECRET_KEY'] = jwt_secret
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -40,8 +39,11 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
     
-    #Fungsi helper mencari user
-
+    # Fungsi helper untuk mengubah objek menjadi dictionary
+    def to_dict(self):
+        return {"id": self.id, "email": self.email, "name": self.name}
+    
+#Fungsi helper mencari user
 def find_user_by_email(email):
     for user in User:
         if user['email'] == email:
@@ -54,11 +56,6 @@ def find_user_by_id(user_id):
             return user.copy() 
     return None
 
-    
-    
-    # Fungsi helper untuk mengubah objek menjadi dictionary
-    def to_dict(self):
-        return {"id": self.id, "email": self.email, "name": self.name}
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -68,7 +65,6 @@ class Item(db.Model):
     # Fungsi helper untuk mengubah objek menjadi dictionary
     def to_dict(self):
         return {"id": self.id, "name": self.name, "price": self.price}
-        
 
 # Token required decorator
 def token_required(f):
