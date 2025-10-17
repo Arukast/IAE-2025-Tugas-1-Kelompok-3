@@ -17,9 +17,11 @@ if not jwt_secret:
 
 # Inisialisasi Aplikasi Flask
 app = Flask(__name__)
+os.makedirs(app.instance_path, exist_ok=True)
 app.config['SECRET_KEY'] = jwt_secret
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 
 # Inisialisasi Database
 db = SQLAlchemy(app)
@@ -38,6 +40,22 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
     
+    #Fungsi helper mencari user
+
+def find_user_by_email(email):
+    for user in User:
+        if user['email'] == email:
+            return user
+    return None
+
+def find_user_by_id(user_id):
+    for user in User:
+        if user['id'] == user_id:
+            return user.copy() 
+    return None
+
+    
+    
     # Fungsi helper untuk mengubah objek menjadi dictionary
     def to_dict(self):
         return {"id": self.id, "email": self.email, "name": self.name}
@@ -50,6 +68,7 @@ class Item(db.Model):
     # Fungsi helper untuk mengubah objek menjadi dictionary
     def to_dict(self):
         return {"id": self.id, "name": self.name, "price": self.price}
+        
 
 # Token required decorator
 def token_required(f):
@@ -75,7 +94,7 @@ def token_required(f):
     return decorated
 
 #Endpoint 1: login
-@app.route('/auth/login', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
     if not data or not data.get('email') or not data.get('password'):
@@ -84,15 +103,55 @@ def login():
     email = data.get('email')
     password = data.get('password')
     user = find_user_by_email(email)
+    if not user or user['password'] != password:
+        return jsonify({'error': 'Invalid credentials'}), 401
+    
+    payload = {
+        'sub': user['id'], # Subject (ID unik user)
+        'email': user['email'],
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=15) # Waktu kedaluwarsa 15 menit
+    }
 
+    token = jwt.encode(
+        payload,
+        app.config['JWT_SECRET'],
+        algorithm='HS256'
+    )
+
+    return jsonify({'access_token': token}), 200
 
 #Endpoint 2: Items
 @app.route('/items', methods=['GET'])
+def get_items():
+    all_items = Item.query.all()
+
+    list_item = [item.to_dict() for item in all_items]
+    return jsonify({"items": list_item})
 
 
 #Endpoint 3: Profile
 @app.route('/profile', methods=['PUT'])
-# @jwt_required
+@token_required
+def update_profile(current_user):
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Request body cannot be empty"}), 400
+        
+    updated = False
+    if 'name' in data and data['name']:
+        current_user.name = data['name']
+        updated = True
+    
+    if not updated:
+        return jsonify({"error": "No valid fields to update ('name')"}), 400
+
+    db.session.commit()
+    
+    print(f"INFO: Profil untuk {current_user.email} berhasil diperbarui.")
+    return jsonify({
+        "message": "Profile updated successfully",
+        "profile": current_user.to_dict()
+    })
 
 # FUNGSI UNTUK INISIALISASI DATABASE
 def init_db():
