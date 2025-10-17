@@ -21,7 +21,7 @@
 4. Konfigurasi Environment
    Buat file .env di root proyek dengan isi:
    ```
-   JWT_SECRET=ini-sangatlah-rahasia-saya-kelompok-3-iae-2025
+   JWT_SECRET=your_jwt_token
    PORT=5000
    DATABASE_URL=sqlite:///instance/app.db
    ```
@@ -56,7 +56,7 @@
   - Response: JSON dengan token JWT
     ```json
     {
-      "access_token": "eyJ0eXAi..."
+      "access_token": "xx..."
     }
     ```
 
