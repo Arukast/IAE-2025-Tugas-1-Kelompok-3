@@ -1,6 +1,6 @@
 import os
 import datetime
-from flask import Flask, request, jsonify
+from flask import Flask, make_response, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
@@ -18,7 +18,7 @@ if not jwt_secret:
 # Inisialisasi Aplikasi Flask
 app = Flask(__name__)
 app.config['SECRET_KEY'] = jwt_secret
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///app.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
@@ -70,53 +70,96 @@ class Item(db.Model):
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = request.cookies.get('jwt_token')
+        token = None
+        auth_header = request.headers.get('Authorization', '')
+        if auth_header.startswith('Bearer '):
+            token = auth_header.split(None, 1)[1]
+        else:
+            token = request.cookies.get('jwt_token')
 
         if not token:
             return jsonify({'message': 'Token is missing!'}), 401
 
+        # normalize token string (remove quotes or accidental byte-repr)
+        if isinstance(token, bytes):
+            token = token.decode('utf-8')
+        token = token.strip().strip('"').strip("'")
+        if token.startswith("b'") and token.endswith("'"):
+            token = token[2:-1]
+        
         try:
             data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
-            current_user = User.query.filter_by(email=data['sub']).first()
+            sub = data.get('sub')
+            try:
+                user_id = int(sub)
+            except (TypeError, ValueError):
+                return jsonify({'message': 'Token is invalid!', 'reason': 'Invalid subject type'}), 401
+            current_user = User.query.get(user_id)
             if not current_user:
                 return jsonify({"error": "User not found"}), 404
         except jwt.ExpiredSignatureError:
             return jsonify({"error": "Token expired"}), 401
         except jwt.InvalidTokenError:
             return jsonify({'message': 'Token is invalid!'}), 401
+            # debug info (remove in production)
+            # return jsonify({
+            #     'message': 'Token is invalid!',
+            #     'reason': str(e),
+            #     'token_sample': token[:60]
+            # }), 401
 
         return f(current_user, *args, **kwargs)
 
     return decorated
 
-#Endpoint 1: login
-@app.route('/login', methods=['POST'])
+# Endpoint 1: Login
+# Endpoint 1.1: View Login Page
+@app.route('/login')
 def login():
-    data = request.get_json()
-    if not data or not data.get('email') or not data.get('password'):
-        return jsonify({'error': 'Email and password are required'}), 400
-    
+    return render_template('login.html')
+
+#Endpoint 1.2: Auth Login API
+@app.route('/auth/login', methods=['POST'])
+def auth():
+    # accept JSON or form data
+    if request.is_json:
+        data = request.get_json()
+    else:
+        data = request.form
+
     email = data.get('email')
     password = data.get('password')
-    user = find_user_by_email(email)
-    if not user or user['password'] != password:
-        return jsonify({'error': 'Invalid credentials'}), 401
-    
-    payload = {
-        'sub': user['id'], # Subject (ID unik user)
-        'email': user['email'],
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=15) # Waktu kedaluwarsa 15 menit
-    }
+    if not email or not password:
+        return jsonify({'message': 'Email and password are required'}), 400
+
+    user = User.query.filter_by(email=email).first()
+    # use the model method (or password_hash) to verify
+    if not user or not user.check_password(password):
+        return jsonify({'message': 'Invalid email or password'}), 401
 
     token = jwt.encode(
-        payload,
-        app.config['JWT_SECRET'],
-        algorithm='HS256'
+        {
+            'sub': str(user.id),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=15)
+        },
+        app.config['SECRET_KEY'],
+        algorithm="HS256"
     )
 
-    return jsonify({'access_token': token}), 200
+    # ensure token is a str (PyJWT may return bytes)
+    if isinstance(token, bytes):
+        token = token.decode('utf-8')
+    
+    # return token as JSON (no redirect)
+    # return token in JSON and set httponly cookie for convenience
+    resp = make_response(jsonify({'access_token': token}), 200)
+    resp.set_cookie('jwt_token', token, httponly=True, samesite='Lax')
+    return resp
+
+
 
 #Endpoint 2: Items
+# Endpoint 2.1: Get Items (JSON) API
 @app.route('/items', methods=['GET'])
 def get_items():
     all_items = Item.query.all()
@@ -124,23 +167,34 @@ def get_items():
     list_item = [item.to_dict() for item in all_items]
     return jsonify({"items": list_item})
 
+# Endpoint 2.2: View Items (HTML) Page
+@app.route('/items/view', methods=['GET'])
+def items_view():
+    items = Item.query.all()
+    return render_template('items.html', items=items)
 
-#Endpoint 3: Profile
-@app.route('/profile', methods=['PUT'])
+# Endpoint 3: Profile
+#Endpoint 3.1: View Profile Page
+@app.route('/profile', methods=['GET'])
+@token_required
+def view_profile(current_user):
+    return render_template('profil.html', user=current_user)
+
+#Endpoint 3.2: Get Profile (JSON) API
+@app.route('/profile/update', methods=['PUT', 'POST'])
 @token_required
 def update_profile(current_user):
-    data = request.get_json()
-    if not data:
-        return jsonify({"error": "Request body cannot be empty"}), 400
-        
-    updated = False
-    if 'name' in data and data['name']:
-        current_user.name = data['name']
-        updated = True
-    
-    if not updated:
+    # accept JSON or form data
+    if request.is_json:
+        data = request.get_json()
+    else:
+        data = request.form
+
+    new_name = data.get('name')
+    if not new_name:
         return jsonify({"error": "No valid fields to update ('name')"}), 400
 
+    current_user.name = new_name
     db.session.commit()
     
     print(f"INFO: Profil untuk {current_user.email} berhasil diperbarui.")
@@ -159,8 +213,8 @@ def init_db():
             demo_user = User(email="user1@example.com", name="User Satu")
             demo_user.set_password("pass123")
             
-            item1 = Item(name="Laptop Pro", price=15000000)
-            item2 = Item(name="Mouse Gaming", price=750000)
+            item1 = Item(name="Lonovo Ligion 5i", price=15000000)
+            item2 = Item(name="Ligotech R25", price=750000)
             
             db.session.add(demo_user)
             db.session.add(item1)
