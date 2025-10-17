@@ -1,0 +1,419 @@
+{
+	"info": {
+		"_postman_id": "00d9793d-569c-4d6b-81a3-45362fdcc39f",
+		"name": "Tugas 1_IAE_Kelompok 3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44828361",
+		"_collection_link": "https://ahmadakmalamran.postman.co/workspace/Ahmad-Akmal-Amran's-Workspace~41c5704f-ecbf-43b6-857d-21d46189826b/collection/44828361-00d9793d-569c-4d6b-81a3-45362fdcc39f?action=share&source=collection_link&creator=44828361"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "user1@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "pass123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/auth/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "email",
+											"value": "user1@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "pass123",
+											"type": "text"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/auth/login",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.1.3 Python/3.10.6"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 15:08:11 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "144"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "jwt_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzYwNzE0NTkxfQ.lTiFhzIAy2VEhu9q4H2FfHrbAU9DQ5Gw_NC8WQbPM1U; HttpOnly; Path=/; SameSite=Lax"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzYwNzE0NTkxfQ.lTiFhzIAy2VEhu9q4H2FfHrbAU9DQ5Gw_NC8WQbPM1U\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Items",
+			"item": [
+				{
+					"name": "Items",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "View Items",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"mahasiswa\", \r\n    \"password\": \"belajar\"\r\n    \r\n    }"
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/items",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"items"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.1.3 Python/3.10.6"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 14:56:06 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "186"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"items\": [\n        {\n            \"id\": 1,\n            \"name\": \"Lonovo Ligion 5i\",\n            \"price\": 15000000\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Ligotech R25\",\n            \"price\": 750000\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "View Profile",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "View Profile Before Update",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzYwNzE0NTkxfQ.lTiFhzIAy2VEhu9q4H2FfHrbAU9DQ5Gw_NC8WQbPM1U",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:5000/profile",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"profile"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.1.3 Python/3.10.6"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 15:08:21 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "92"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"profile\": {\n        \"email\": \"user1@gmail.com\",\n        \"id\": 1,\n        \"name\": \"User Satu\"\n    }\n}"
+						},
+						{
+							"name": "View Profile After Update",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzYwNzE0NTkxfQ.lTiFhzIAy2VEhu9q4H2FfHrbAU9DQ5Gw_NC8WQbPM1U",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:5000/profile",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"profile"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.1.3 Python/3.10.6"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 15:15:35 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "93"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"profile\": {\n        \"email\": \"user1@gmail.com\",\n        \"id\": 1,\n        \"name\": \"kelompok 3\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Profile Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzYwNzE0NTkxfQ.lTiFhzIAy2VEhu9q4H2FfHrbAU9DQ5Gw_NC8WQbPM1U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "kelompok 3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/profile/update",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"profile",
+								"update"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Profile Update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "kelompok 3",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/profile/update",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"profile",
+										"update"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.1.3 Python/3.10.6"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 17 Oct 2025 15:09:08 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "138"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Profile updated successfully\",\n    \"profile\": {\n        \"email\": \"user1@gmail.com\",\n        \"id\": 1,\n        \"name\": \"kelompok 3\"\n    }\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}
