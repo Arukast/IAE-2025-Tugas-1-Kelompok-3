@@ -1,6 +1,5 @@
 ## 1. Cara Setup & Menjalankan Server
 1. Clone Repositori (Opsional)
-   Jika ini adalah repositori git, clone terlebih dahulu. Jika tidak, pastikan berada di folder proyek.
 
 2. Buat Virtual Environment
    ```bash
@@ -21,7 +20,7 @@
 4. Konfigurasi Environment
    Buat file .env di root proyek dengan isi:
    ```
-   JWT_SECRET=your_jwt_token
+   JWT_SECRET=Your_JWT_Secret_Token
    PORT=5000
    DATABASE_URL=sqlite:///instance/app.db
    ```
@@ -92,9 +91,6 @@
 * **GET /profile**
   - Melihat profile pengguna
   - Requires: JWT token
-  - Response format:
-    - JSON jika Accept: application/json atau ?format=json
-    - HTML profile page (default)
   - JSON Response:
     ```json
     {
@@ -125,9 +121,6 @@
 
 ## 4. Authentication
 - JWT token digunakan untuk autentikasi
-- Token dikirim melalui:
-  - Header: `Authorization: Bearer <token>`
-  - Cookie: `jwt_token=<token>`
 - Token expired dalam 15 menit
 
 ## 5. Testing dengan cURL
