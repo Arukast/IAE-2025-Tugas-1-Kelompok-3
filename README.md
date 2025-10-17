@@ -40,8 +40,8 @@ c. Profil Pengguna
 ## 4. Contoh Pengujian (cURL)
 Pastikan server Anda sedang berjalan (python app.py).
 ---
-> Login untuk Mendapatkan Token
-> Simpan Token ke Variabel
-> Akses Endpoint Publik /items
-> Akses Endpoint Terproteksi /profile/update (Dengan Token)
-> Tes Negatif (Akses /profile/update Tanpa Token)
+- Login untuk Mendapatkan Token
+- Simpan Token ke Variabel
+- Akses Endpoint Publik /items
+- Akses Endpoint Terproteksi /profile/update (Dengan Token)
+- Tes Negatif (Akses /profile/update Tanpa Token)
