@@ -22,10 +22,15 @@
    ```
    JWT_SECRET=Your_JWT_Secret_Token
    PORT=5000
-   DATABASE_URL=sqlite:///instance/app.db
+   DATABASE_URL=sqlite:///(lokasi folder projek)/instance/app.db
    ```
 
-5. Jalankan Server
+   contoh DATABASE_URL
+   ```
+   DATABASE_URL=sqlite:///D:/IAE-2025-Tugas-1-Kelompok-3/instance/app.db
+   ```
+
+6. Jalankan Server
    ```bash
    python app.py
    ```
