@@ -81,17 +81,6 @@
   - Menampilkan halaman items
   - Response: HTML items page
 
-* **POST /items/add**
-  - Menambah item baru (Admin only)
-  - Requires: JWT token with admin role
-  - Request Body:
-    ```json
-    {
-      "name": "New Item",
-      "price": 1000
-    }
-    ```
-
 ### Profile
 * **GET /profile**
   - Melihat profile pengguna
@@ -124,6 +113,17 @@
   - Requires: JWT token with admin role
   - Response: Array of users
 
+* **POST /items/add**
+  - Menambah item baru (Admin only)
+  - Requires: JWT token with admin role
+  - Request Body:
+    ```json
+    {
+      "name": "New Item",
+      "price": 1000
+    }
+    ``` 
+
 ## 4. Authentication
 - JWT token digunakan untuk autentikasi
 - Token expired dalam 15 menit
@@ -134,7 +134,7 @@
 # Login
 curl -X POST http://localhost:5000/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"user@example.com","password":"password123"}'
+  -d '{"email":"user1@example.com","password":"password123"}'
 
 # Get Items
 curl http://localhost:5000/items
@@ -156,3 +156,37 @@ curl -X POST http://localhost:5000/items/add \
   -H "Content-Type: application/json" \
   -d '{"name":"New Item","price":1000}'
 ```
+## 6. Testing dengan Postman
+
+* **Login** 
+- Method: POST 
+- URL: http://127.0.0.1:5000/auth/login
+
+* **Items**
+- Method: GET
+- URL: http://127.0.0.1:5000/items
+
+* **Profile**
+- Method: GET 
+- URL: http://127.0.0.1:5000/profile
+- Authorization: Bearer <YOUR_TOKEN>
+
+* **Profile Update**
+- Method: PUT
+- URL: http://127.0.0.1:5000/profile/update
+- Authorization: Bearer <YOUR_TOKEN>
+- Body: name
+
+* **Users**
+- Method: GET
+- URL: http://127.0.0.1:5000/users
+- Authorization: Bearer <YOUR_TOKEN>
+
+* **Add Items**
+- Method: POST
+- URL: http://127.0.0.1:5000/items/add
+- Authorization: Bearer <YOUR_TOKEN>
+- Body: name, price
+
+## 7. Screenshot Uji Postman
+* **Link GDrive:** [GDrive SS Uji Postman](https://drive.google.com/drive/folders/1e6tZlPsPnpYtDujOpi4uE8VaAJFiaJDc?usp=sharing)
