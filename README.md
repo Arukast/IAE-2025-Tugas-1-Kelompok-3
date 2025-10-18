@@ -159,34 +159,34 @@ curl -X POST http://localhost:5000/items/add \
 ## 6. Testing dengan Postman
 
 * **Login** 
-- Method: POST 
-- URL: http://127.0.0.1:5000/auth/login
+   - Method: POST 
+   - URL: http://127.0.0.1:5000/auth/login
 
 * **Items**
-- Method: GET
-- URL: http://127.0.0.1:5000/items
+   - Method: GET
+   - URL: http://127.0.0.1:5000/items
 
 * **Profile**
-- Method: GET 
-- URL: http://127.0.0.1:5000/profile
-- Authorization: Bearer <YOUR_TOKEN>
+   - Method: GET 
+   - URL: http://127.0.0.1:5000/profile
+   - Authorization: Bearer <YOUR_TOKEN>
 
 * **Profile Update**
-- Method: PUT
-- URL: http://127.0.0.1:5000/profile/update
-- Authorization: Bearer <YOUR_TOKEN>
-- Body: name
+   - Method: PUT
+   - URL: http://127.0.0.1:5000/profile/update
+   - Authorization: Bearer <YOUR_TOKEN>
+   - Body: name
 
 * **Users**
-- Method: GET
-- URL: http://127.0.0.1:5000/users
-- Authorization: Bearer <YOUR_TOKEN>
+   - Method: GET
+   - URL: http://127.0.0.1:5000/users
+   - Authorization: Bearer <YOUR_TOKEN>
 
 * **Add Items**
-- Method: POST
-- URL: http://127.0.0.1:5000/items/add
-- Authorization: Bearer <YOUR_TOKEN>
-- Body: name, price
+   - Method: POST
+   - URL: http://127.0.0.1:5000/items/add
+   - Authorization: Bearer <YOUR_TOKEN>
+   - Body: name, price
 
 ## 7. Screenshot Uji Postman
 * **Link GDrive:** [GDrive SS Uji Postman](https://drive.google.com/drive/folders/1e6tZlPsPnpYtDujOpi4uE8VaAJFiaJDc?usp=sharing)
