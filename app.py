@@ -32,16 +32,16 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     name = db.Column(db.String(80), nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
+    role = db.Column(db.String(20), nullable=False, default='user')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
-    
-    # Fungsi helper untuk mengubah objek menjadi dictionary
+
     def to_dict(self):
-        return {"id": self.id, "email": self.email, "name": self.name}
+        return {"id": self.id, "email": self.email, "name": self.name, "role": self.role}
     
 #Fungsi helper mencari user
 def find_user_by_email(email):
@@ -112,6 +112,16 @@ def token_required(f):
 
     return decorated
 
+# Admin role required decorator
+def admin_required(f):
+    @wraps(f)
+    @token_required
+    def decorated_function(current_user, *args, **kwargs):
+        if current_user.role != 'admin':
+            return jsonify({'message': 'Permission denied: Requires admin role.'}), 403
+        return f(current_user, *args, **kwargs)
+    return decorated_function
+
 # Endpoint 1: Login
 # Endpoint 1.1: View Login Page
 @app.route('/login')
@@ -173,6 +183,34 @@ def items_view():
     items = Item.query.all()
     return render_template('items.html', items=items)
 
+@app.route('/items/add', methods=['POST'])
+@admin_required
+def add_item(current_user):
+    if request.is_json:
+        data = request.get_json()
+    else:
+        data = request.form
+
+    name = data.get('name')
+    price = data.get('price')
+    if not name or not price:
+        return jsonify({'message': 'Name and price are required'}), 400
+
+    try:
+        price = int(price)
+    except ValueError:
+        return jsonify({'message': 'Price must be an integer'}), 400
+
+    new_item = Item(name=name, price=price)
+    db.session.add(new_item)
+    db.session.commit()
+
+    print(f"INFO: Item '{name}' dengan harga {price} berhasil ditambahkan oleh admin {current_user.email}.")
+    return jsonify({
+        "message": "Item added successfully",
+        "item": new_item.to_dict()
+    }), 201
+
 # Endpoint 3: Profile
 #Endpoint 3.1: View Profile Page
 @app.route('/profile', methods=['GET'])
@@ -203,27 +241,54 @@ def update_profile(current_user):
         "profile": current_user.to_dict()
     })
 
-# FUNGSI UNTUK INISIALISASI DATABASE
+# Endpoint 4: Admin - Get All Users
+@app.route('/users', methods=['GET'])
+@admin_required
+def get_all_users(current_user):
+    users = User.query.all()
+    user_list = [user.to_dict() for user in users]
+    return jsonify(user_list)
+
 def init_db():
     with app.app_context():
         db.create_all()
-        # Cek jika user demo belum ada, maka buat
-        if not User.query.filter_by(email="user1@example.com").first():
-            print("Creating demo user and items...")
-            demo_user = User(email="user1@example.com", name="User Satu")
-            demo_user.set_password("pass123")
+    
+        demo_users_data = [
+            {'email': 'admin@example.com', 'name': 'Admin Utama', 'password': 'admin123', 'role': 'admin'},
+            {'email': 'user1@example.com', 'name': 'Tb Alta U', 'password': 'pass123', 'role': 'user'},
+            {'email': 'user2@example.com', 'name': 'Raffi Akbar F', 'password': 'pass123', 'role': 'user'},
+            {'email': 'user3@example.com', 'name': 'Adhira Zhafif D', 'password': 'pass123', 'role': 'user'},
+            {'email': 'user4@example.com', 'name': 'Ahmad Akmal A', 'password': 'pass123', 'role': 'user'}
+        ]
+
+        for user_data in demo_users_data:
+            if not User.query.filter_by(email=user_data['email']).first():
+                print(f"Membuat user: {user_data['email']}...")
+                new_user = User(
+                    email=user_data['email'], 
+                    name=user_data['name'], 
+                    role=user_data['role']
+                )
+                new_user.set_password(user_data['password'])
+                db.session.add(new_user)
             
+        if Item.query.count() == 0:
+            print("Membuat item demo...")
             item1 = Item(name="Lonovo Ligion 5i", price=15000000)
             item2 = Item(name="Ligotech R25", price=750000)
-            
-            db.session.add(demo_user)
+            item3 = Item(name="Asusa RIG Zephyrus", price=25000000)
+            item4 = Item(name="MicBook Pro 16", price=30000000)
             db.session.add(item1)
             db.session.add(item2)
-            
+            db.session.add(item3)
+            db.session.add(item4)
+
+        # Commit semua data baru ke database
+        if db.session.new:
             db.session.commit()
-            print("Database initialized with demo data.")
+            print("Inisialisasi database dengan data demo berhasil.")
         else:
-            print("Database already contains data.")
+            print("Database sudah berisi data.")
 
 if __name__ == '__main__':
     # Panggil fungsi inisialisasi saat server pertama kali dijalankan

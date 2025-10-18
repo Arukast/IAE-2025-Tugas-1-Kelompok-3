@@ -1,92 +1,153 @@
 ## 1. Cara Setup & Menjalankan Server
-Clone Repositori (Opsional) Jika ini adalah repositori git, clone terlebih dahulu. Jika tidak, pastikan berada di folder proyek.
+1. Clone Repositori (Opsional)
 
-Buat Virtual Environment.
-
+2. Buat Virtual Environment
    ```bash
-  python -m venv venv
-  source venv/bin/activate  # Linux/Mac
-  venv\Scripts\activate     # Windows
+   python -m venv .venv
+   .venv\Scripts\activate     # Windows
+   source .venv/bin/activate  # Linux/Mac
    ```
 
-Install Dependencies Buat file requirements.txt yang berisi:
-
+3. Install Dependencies
    ```bash
-  Flask
-  PyJWT
-  python-dotenv
-  Flask-CORS
-  Flask-SQLAlchemy
-  Werkzeug
+   pip install Flask PyJWT python-dotenv Flask-SQLAlchemy Werkzeug
    ```
-
-Lalu, install menggunakan pip
-
+   Atau gunakan requirements.txt:
    ```bash
    pip install -r requirements.txt
    ```
 
-Konfigurasi Environment Buat file bernama .env di direktori root proyek
-
-Jalankan Server (dan Inisialisasi DB) Jalankan aplikasi Flask
-
-## 2. Variabel Environment
-1. Wajib membuat file .env di root proyek
-
-2. Ubah env menjadi
-
-  ```bash
-  JWT_SECRET=your_jwt_secret_key
-  PORT=5000
-  DATABASE_URL=sqlite:///app.db
+4. Konfigurasi Environment
+   Buat file .env di root proyek dengan isi:
+   ```
+   JWT_SECRET=Your_JWT_Secret_Token
+   PORT=5000
+   DATABASE_URL=sqlite:///instance/app.db
    ```
 
-Jika DATABASE_URL tidak disediakan, aplikasi akan otomatis menggunakan file SQLite bernama app.db
+5. Jalankan Server
+   ```bash
+   python app.py
+   ```
+   Server akan berjalan di http://localhost:5000
+
+## 2. Database
+- SQLite digunakan sebagai database default
+- Database akan otomatis diinisialisasi saat pertama kali menjalankan server
+- File database akan dibuat sesuai DATABASE_URL di .env
 
 ## 3. Daftar Endpoint API
 
 ### Autentikasi
-* **/login**
-  Endpoint untuk menampilkan frontend dari login yang digunakan sebagai input email dan password
+* **GET /login**
+  - Menampilkan halaman login
+  - Response: HTML login page
+
 * **POST /auth/login**
-  Endpoint publik untuk mendapatkan token JWT. Data kredensial akan dicek ke database.
+  - Login untuk mendapatkan JWT token
+  - Request Body: JSON atau Form Data
+    ```json
+    {
+      "email": "user@example.com",
+      "password": "password123"
+    }
+    ```
+  - Response: JSON dengan token JWT
+    ```json
+    {
+      "access_token": "xx..."
+    }
+    ```
 
 ### Items
-
 * **GET /items**
-  Endpoint publik untuk melihat semua item dari database.
+  - Mendapatkan semua items (JSON)
+  - Response: Array of items
+    ```json
+    {
+      "items": [
+        {"id": 1, "name": "Item 1", "price": 1000},
+        {"id": 2, "name": "Item 2", "price": 2000}
+      ]
+    }
+    ```
 
-### Profil Pengguna
+* **GET /items/view**
+  - Menampilkan halaman items
+  - Response: HTML items page
 
+* **POST /items/add**
+  - Menambah item baru (Admin only)
+  - Requires: JWT token with admin role
+  - Request Body:
+    ```json
+    {
+      "name": "New Item",
+      "price": 1000
+    }
+    ```
+
+### Profile
 * **GET /profile**
-  Endpoint terproteksi (wajib JWT) untuk menampilkan data pengguna yang sedang login seperti nama dan email 
+  - Melihat profile pengguna
+  - Requires: JWT token
+  - JSON Response:
+    ```json
+    {
+      "profile": {
+        "id": 1,
+        "email": "user@example.com",
+        "name": "User Name",
+        "role": "user"
+      }
+    }
+    ```
 
-* **PUT /profile/update**
-  Endpoint terproteksi (wajib JWT) untuk memperbarui nama pengguna yang sedang login.
-  Endpoint ini juga menerima metode **POST**.
+* **PUT/POST /profile/update**
+  - Update profile pengguna
+  - Requires: JWT token
+  - Request Body:
+    ```json
+    {
+      "name": "New Name"
+    }
+    ```
 
-## 4. Contoh Pengujian (cURL)
-Pastikan server Anda sedang berjalan (python app.py).
+### Admin
+* **GET /users**
+  - Mendapatkan daftar semua users
+  - Requires: JWT token with admin role
+  - Response: Array of users
 
-* **Langkah 1: Login untuk Mendapatkan Token**
-  ```bash
-  curl -X POST http://localhost:5000/auth/login -d '{"email":"user1@example.com","password":"pass123"}' -H "Content-Type: application/json"
-  ```
-* **Langkah 2: Simpan Token ke Variabel**
-  ```bash
-  export TOKEN=<JWT_TOKEN>
-  ```
-* **Langkah 3: Akses Endpoint Publik /items**
-  ```bash
-  curl http://localhost:5000/items
-  ```
-* **Langkah 4: Akses Endpoint Terproteksi /profile/update (Dengan Token)**
-  ```bash
-  curl -X PUT http://localhost:5000/profile/update -H "Authorization: Bearer $TOKEN" -d '{"name":"NewName"}' -H "Content-Type: application/json"
-  ```
-* **Langkah 5: Tes Negatif (Akses /profile/update Tanpa Token)**
-  ```bash
-  curl -X PUT http://localhost:5000/profile/update -d '{"name":"NewName"}' -H "Content-Type: application/json"
-  ```
+## 4. Authentication
+- JWT token digunakan untuk autentikasi
+- Token expired dalam 15 menit
 
+## 5. Testing dengan cURL
 
+```bash
+# Login
+curl -X POST http://localhost:5000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"user@example.com","password":"password123"}'
+
+# Get Items
+curl http://localhost:5000/items
+
+# View Profile (JSON)
+curl http://localhost:5000/profile \
+  -H "Authorization: Bearer <your-token>" \
+  -H "Accept: application/json"
+
+# Update Profile
+curl -X PUT http://localhost:5000/profile/update \
+  -H "Authorization: Bearer <your-token>" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"New Name"}'
+
+# Add Item (Admin only)
+curl -X POST http://localhost:5000/items/add \
+  -H "Authorization: Bearer <admin-token>" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"New Item","price":1000}'
+```
